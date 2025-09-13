@@ -61,8 +61,11 @@ dependencies {
 	//JPA 
 	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	
-	// 플라이 웨이 -> 데이터 마이그레이션을 위한 의존성
-	implementation 'org.flywaydb:flyway-core'
+    // Flyway -> DB 마이그레이션을 위한 방법 -> 밑에 postgre 의존성 필수임..
+    implementation 'org.flywaydb:flyway-core'
+    implementation "org.flywaydb:flyway-database-postgresql:10.20.1"
+    
+
 
 }
 

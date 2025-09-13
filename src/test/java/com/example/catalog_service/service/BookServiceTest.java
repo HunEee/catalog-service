@@ -35,7 +35,7 @@ class BookServiceTest {
 	 void whenBookToCreateAlreadyExistsThenThrows() {
 	     // given: 이미 존재하는 ISBN을 가진 책 정보 준비
 	     var bookIsbn = "1234561232";
-	     var bookToCreate = new Book(bookIsbn, "Title", "Author", 9.90);
+	     var bookToCreate = Book.of(bookIsbn, "Title", "Author", 9.90, "Polarsophia");
 	
 	     // repository.existsByIsbn() 호출 시 true를 반환하도록 Mock 설정
 	     when(bookRepository.existsByIsbn(bookIsbn)).thenReturn(true);

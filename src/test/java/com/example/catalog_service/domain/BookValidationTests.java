@@ -31,7 +31,7 @@ class BookValidationTests {
     @Test
     void whenAllFieldsCorrectThenValidationSucceeds() {
         // 모든 값이 정상적으로 들어간 Book 객체 생성
-        var book = new Book("1234567890", "Title", "Author", 9.90);
+    	var book = Book.of("1234567890", "Title", "Author", 9.90, "Polarsophia");
 
         // 유효성 검사 실행
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -43,7 +43,7 @@ class BookValidationTests {
     @Test
     void whenIsbnNotDefinedThenValidationFails() {
         // ISBN을 비워둔 Book 객체 생성
-        var book = new Book("", "Title", "Author", 9.90);
+    	var book = Book.of("", "Title", "Author", 9.90, "Polarsophia");
 
         // 유효성 검사 실행
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -64,7 +64,7 @@ class BookValidationTests {
     @Test
     void whenIsbnDefinedButIncorrectThenValidationFails() {
         // ISBN이 숫자가 아닌 잘못된 값으로 생성
-        var book = new Book("a234567890", "Title", "Author", 9.90);
+    	var book = Book.of("a234567890", "Title", "Author", 9.90, "Polarsophia");
 
         // 유효성 검사 실행
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -80,7 +80,7 @@ class BookValidationTests {
     @Test
     void whenTitleIsNotDefinedThenValidationFails() {
         // Title을 비워둔 Book 객체 생성
-        var book = new Book("1234567890", "", "Author", 9.90);
+    	var book = Book.of("1234567890", "", "Author", 9.90, "Polarsophia");
 
         // 유효성 검사 실행
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -96,8 +96,7 @@ class BookValidationTests {
     @Test
     void whenAuthorIsNotDefinedThenValidationFails() {
         // Author를 비워둔 Book 객체 생성
-        var book = new Book("1234567890", "Title", "", 9.90);
-
+    	var book = Book.of("1234567890", "Title", "", 9.90, "Polarsophia");
         // 유효성 검사 실행
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
 
@@ -112,7 +111,7 @@ class BookValidationTests {
     @Test
     void whenPriceIsNotDefinedThenValidationFails() {
         // Price를 null로 설정
-        var book = new Book("1234567890", "Title", "Author", null);
+    	var book = Book.of("1234567890", "Title", "Author", null, "Polarsophia");
 
         // 유효성 검사 실행
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -128,7 +127,7 @@ class BookValidationTests {
     @Test
     void whenPriceDefinedButZeroThenValidationFails() {
         // Price를 0으로 설정 (양수 아님)
-        var book = new Book("1234567890", "Title", "Author", 0.0);
+    	var book = Book.of("1234567890", "Title", "Author", 0.0, "Polarsophia");
 
         // 유효성 검사 실행
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -144,7 +143,7 @@ class BookValidationTests {
     @Test
     void whenPriceDefinedButNegativeThenValidationFails() {
         // Price를 음수로 설정
-        var book = new Book("1234567890", "Title", "Author", -9.90);
+    	var book = Book.of("1234567890", "Title", "Author", -9.90, "Polarsophia");
 
         // 유효성 검사 실행
         Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -156,5 +155,13 @@ class BookValidationTests {
         assertThat(violations.iterator().next().getMessage())
                 .isEqualTo("The book price must be greater than zero.");
     }
+    
+    @Test
+    void whenPublisherIsNotDefinedThenValidationSucceeds() {
+        Book book = Book.of("1234567890", "Title", "Author", 9.90,null);
+        Set<ConstraintViolation<Book>> violations = validator.validate(book);
+        assertThat(violations).isEmpty();
+    }
+
 
 }

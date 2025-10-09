@@ -86,6 +86,23 @@ bootRun { //활성화할 프로파일 -> "주의": cmd에서 다음과 같은 �
 
 }
 
+bootBuildImage {
+	builder = "docker.io/paketobuildpacks/builder-jammy-base"
+	imageName = "${project.name}"
+	environment = ["BP_JVM_VERSION": "17"]
+
+	//컨테이너 저장소 연결을 설정하기 위한 섹션
+	docker {
+		// 컨테이너 저장소 인증을 설정하기 위한 섹션 -> 값은 그래들 속성을 통해 전달
+		publishRegistry {
+			username = project.findProperty("registryUsername")
+			password = project.findProperty("registryToken")
+			url = project.findProperty("registryUrl")
+		}
+	}
+}
+
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
